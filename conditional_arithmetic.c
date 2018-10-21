@@ -1,3 +1,16 @@
+/*----------------------------------------------------------
+ *				HTBLA-Leonding / Class: 2AHIF
+ * ---------------------------------------------------------
+ * Exercise Number: 4
+ * Title:			Conditional arithmetic
+ * Author:			Jan Kaufmann
+ * ----------------------------------------------------------
+ * Description:
+ * Reads number then adds or multiplys from 0 to input number
+ * when the number is a multiple of 3 or 5.
+ * ----------------------------------------------------------
+ */
+#include "limits.h"
 #include "stdio.h"
 #include "stdbool.h"
 #include "float.h"
@@ -20,6 +33,14 @@ int readNumber() {
   return input;
 }
 
+bool overflow(int dividend) {
+  if(INT_MAX / dividend == 3 || INT_MAX / dividend == 5)
+  {
+    return false;
+  }
+  return true;
+}
+
 int add(int border) {
   int sum = 0;
     for (int i = 3; i <= border; i++)
@@ -39,14 +60,16 @@ int multiply(int border) {
       if((i % 3 == 0) || (i % 5 == 0))
       {
           product *= i;
+          if(overflow(i))
+          {
+            return -1;
+          }
       }
     }
     return product;
 }
 
-bool isOverflow(int dividendd) {
 
-}
 
 int main(int argc, char const *argv[]) {
   int operator = readOperation();
@@ -58,7 +81,15 @@ int main(int argc, char const *argv[]) {
     case 2: solution = multiply(number);
     break;
   }
-  printf("The result is: %d \n", solution);
+  if(solution != -1)
+  {
+    printf("The result is: %d \n", solution);
+  }
+  else
+  {
+      printf("Overflow! \n");
+  }
+
 
   return 0;
 }
